@@ -23,7 +23,7 @@ func _ready():
 func _process(delta):
 	if(multiplayer.is_server()) :
 		GetPeersLabel.text = "Get peers: " + str(multiplayer.get_peers())
-		if(multiplayer.get_peers().size() > 1):
+		if(multiplayer.get_peers().size() >= 1):
 			StartGameButton.disabled = false
 	
 func beginHosting():
