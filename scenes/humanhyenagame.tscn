@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://b3ru7aa4ux3o6"]
+[gd_scene load_steps=8 format=3 uid="uid://b3ru7aa4ux3o6"]
 
-[ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_51h0l"]
+[ext_resource type="PackedScene" uid="uid://dv1x2eqq0s0lw" path="res://prefabs/player_character.tscn" id="1_hu0xq"]
 
 [sub_resource type="Environment" id="Environment_jyqg2"]
 
@@ -17,10 +17,6 @@ albedo_color = Color(1, 0.152941, 1, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_a1v7w"]
 material = SubResource("StandardMaterial3D_uoqs3")
-
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1h4gf"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_hxaqb"]
 
 [node name="Node" type="Node"]
 
@@ -51,15 +47,4 @@ shape = SubResource("BoxShape3D_d3orv")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="3DWorld/Terrain/Obstacle"]
 mesh = SubResource("BoxMesh_a1v7w")
 
-[node name="CharacterBody3D" type="CharacterBody3D" parent="3DWorld"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.265, 0)
-script = ExtResource("1_51h0l")
-
-[node name="Camera" type="Camera3D" parent="3DWorld/CharacterBody3D"]
-current = true
-
-[node name="Collider" type="CollisionShape3D" parent="3DWorld/CharacterBody3D"]
-shape = SubResource("CapsuleShape3D_1h4gf")
-
-[node name="Mesh" type="MeshInstance3D" parent="3DWorld/CharacterBody3D"]
-mesh = SubResource("CapsuleMesh_hxaqb")
+[node name="CharacterBody3D" parent="3DWorld" instance=ExtResource("1_hu0xq")]
