@@ -54,5 +54,6 @@ mesh = SubResource("BoxMesh_a1v7w")
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://prefabs/player_character.tscn")
 spawn_path = NodePath("../PlayerNode")
+spawn_limit = 4
 
 [node name="PlayerNode" type="Node3D" parent="."]
