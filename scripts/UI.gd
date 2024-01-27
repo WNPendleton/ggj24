@@ -29,9 +29,10 @@ func beginHosting():
 	var error = peer.create_server(ConnectionInfo.PORT, ConnectionInfo.MAX_CLIENTS)
 	if error:
 		print(error)
-	else:
-		ConnectionInfo.Host = true
+		
+	ConnectionInfo.Host = true
 	multiplayer.multiplayer_peer = peer
+	ConnectionInfo.bullshitmultiplayer = multiplayer
 	
 func connectClient():
 	var peer = ENetMultiplayerPeer.new()
@@ -42,6 +43,7 @@ func connectClient():
 		multiplayer.multiplayer_peer = peer
 		ConnectionInfo.IpAddress = IpAddrTextEdit.text
 		ConnectionInfo.Host = false
+	ConnectionInfo.bullshitmultiplayer = multiplayer
 
 func startGame():
 	pass

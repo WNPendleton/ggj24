@@ -22,6 +22,7 @@ func _physics_process(delta):
 
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		screech.rpc()
 
 	if Input.is_action_just_pressed("pause"):
 		if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
@@ -55,3 +56,7 @@ func _input(event):
 		camera.transform.basis = Basis()
 		rotate_object_local(Vector3(0,1,0), -rot_x)
 		camera.rotate_object_local(Vector3(1,0,0), -rot_y)
+		
+@rpc("any_peer", "call_local", "reliable")
+func screech():
+	print("testing testing 123")

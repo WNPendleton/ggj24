@@ -1,9 +1,11 @@
 extends Node
 
-var IpAddress = 0
+var IpAddress = ""
 var Host = false
 const PORT = 6968
 const MAX_CLIENTS = 4
+
+var bullshitmultiplayer
 
 
 # Called when the node enters the scene tree for the first time.
