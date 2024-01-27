@@ -1,9 +1,65 @@
-[gd_scene format=3 uid="uid://wahlf4nv4xu1"]
+[gd_scene load_steps=10 format=3 uid="uid://b3ru7aa4ux3o6"]
+
+[ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_51h0l"]
+
+[sub_resource type="Environment" id="Environment_jyqg2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mb1o1"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0au67"]
+size = Vector3(100, 1, 100)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_d3orv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uoqs3"]
+albedo_color = Color(1, 0.152941, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_a1v7w"]
+material = SubResource("StandardMaterial3D_uoqs3")
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_1h4gf"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hxaqb"]
 
 [node name="Node" type="Node"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_jyqg2")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(0.860822, 0.360014, -0.359688, 0, 0.706786, 0.707428, 0.508906, -0.608969, 0.608417, 0, 9.57596, 0)
+
+[node name="3DWorld" type="Node3D" parent="."]
+
+[node name="Terrain" type="Node3D" parent="3DWorld"]
+
+[node name="Ground" type="StaticBody3D" parent="3DWorld/Terrain"]
+
+[node name="Collider" type="CollisionShape3D" parent="3DWorld/Terrain/Ground"]
+shape = SubResource("BoxShape3D_mb1o1")
+
+[node name="Mesh" type="MeshInstance3D" parent="3DWorld/Terrain/Ground"]
+mesh = SubResource("BoxMesh_0au67")
+
+[node name="Obstacle" type="StaticBody3D" parent="3DWorld/Terrain"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.04028, 2.48812, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="3DWorld/Terrain/Obstacle"]
+shape = SubResource("BoxShape3D_d3orv")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="3DWorld/Terrain/Obstacle"]
+mesh = SubResource("BoxMesh_a1v7w")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="3DWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.265, 0)
+script = ExtResource("1_51h0l")
+
+[node name="Camera" type="Camera3D" parent="3DWorld/CharacterBody3D"]
 current = true
 
-[node name="CSGBox3D" type="CSGBox3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.6516)
+[node name="Collider" type="CollisionShape3D" parent="3DWorld/CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_1h4gf")
+
+[node name="Mesh" type="MeshInstance3D" parent="3DWorld/CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_hxaqb")
