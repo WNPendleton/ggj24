@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://lxckbuab8tub"]
 
-[ext_resource type="Script" path="res://scenes/UI.gd" id="1_438wq"]
+[ext_resource type="Script" path="res://scenes/UI.gd" id="1_nvc5y"]
 
 [node name="Game" type="Node"]
 
@@ -8,14 +8,16 @@
 
 [node name="3DWorld" type="Node3D" parent="."]
 
-[node name="UI" type="Control" parent="." node_paths=PackedStringArray("IpAddrTextEdit", "StartGameButton")]
+[node name="UI" type="Control" parent="." node_paths=PackedStringArray("IpAddrTextEdit", "StartGameButton", "PlayerConnectedLabel", "GetPeersLabel")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 314.0
 offset_bottom = 202.0
-script = ExtResource("1_438wq")
+script = ExtResource("1_nvc5y")
 IpAddrTextEdit = NodePath("IpAddrTextEdit")
 StartGameButton = NodePath("StartGameButton")
+PlayerConnectedLabel = NodePath("PlayersConnectedLabel")
+GetPeersLabel = NodePath("GetPeersLabel")
 
 [node name="HostButton" type="Button" parent="UI"]
 layout_mode = 0
@@ -54,5 +56,14 @@ offset_right = 287.0
 offset_bottom = 24.0
 text = "Players connected: "
 
+[node name="GetPeersLabel" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 289.0
+offset_top = 41.0
+offset_right = 410.0
+offset_bottom = 64.0
+text = "Get peers: "
+
 [connection signal="button_down" from="UI/HostButton" to="UI" method="beginHosting"]
 [connection signal="button_down" from="UI/ClientButton" to="UI" method="connectClient"]
+[connection signal="button_down" from="UI/StartGameButton" to="UI" method="callLoadLevel"]
