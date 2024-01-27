@@ -24,12 +24,16 @@ func _process(delta):
 	
 func beginHosting():
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_server(PORT, MAX_CLIENTS)
+	var error = peer.create_server(PORT, MAX_CLIENTS)
+	if error:
+		print(error)
 	multiplayer.multiplayer_peer = peer
 	
 func connectClient():
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_client(IpAddrTextEdit.text, PORT)
+	var error = peer.create_client(IpAddrTextEdit.text, PORT)
+	if error:
+		print(error)
 	multiplayer.multiplayer_peer = peer
 
 func startGame():
@@ -40,3 +44,5 @@ func playerLoaded():
 	if(multiplayer.is_server):
 		playersLoaded += 1
 		PlayerConnectedLabel.text = "Players connected: " + playersLoaded
+	print("New player connected")
+	
