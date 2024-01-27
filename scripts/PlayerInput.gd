@@ -13,6 +13,6 @@ func jump():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	direction = Input.get_vector("strafe-left", "strafe_right", "forward", "backward")
+	direction = Input.get_vector("strafe-left", "strafe-right", "forward", "backward")
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()

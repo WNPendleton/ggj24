@@ -21,7 +21,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 func _ready():
 	if player == multiplayer.get_unique_id():
-		$Camera3D.current = true
+		camera.current = true
 	#Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _physics_process(delta):

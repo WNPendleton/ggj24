@@ -1,10 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://lxckbuab8tub"]
+[gd_scene load_steps=2 format=3 uid="uid://lxckbuab8tub"]
 
-[ext_resource type="Script" path="res://scripts/humanhyenagame.gd" id="1_kutfo"]
 [ext_resource type="Script" path="res://scripts/UI.gd" id="1_nvc5y"]
 
 [node name="Game" type="Node"]
-script = ExtResource("1_kutfo")
 
 [node name="2DWorld" type="Node2D" parent="."]
 
