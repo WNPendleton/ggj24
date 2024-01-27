@@ -7,6 +7,7 @@ signal player_disconnected(peer_id)
 
 @export var IpAddrTextEdit : TextEdit
 @export var StartGameButton : Button
+@export var PlayerConnectedLabel : Label
 
 var playersLoaded = 0
 
@@ -38,3 +39,4 @@ func startGame():
 func playerLoaded():
 	if(multiplayer.is_server):
 		playersLoaded += 1
+		PlayerConnectedLabel.text = "Players connected: " + playersLoaded
