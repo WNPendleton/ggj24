@@ -50,3 +50,9 @@ shape = SubResource("BoxShape3D_d3orv")
 mesh = SubResource("BoxMesh_a1v7w")
 
 [node name="CharacterBody3D" parent="3DWorld" instance=ExtResource("1_hu0xq")]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://prefabs/player_character.tscn")
+spawn_path = NodePath("../PlayerNode")
+
+[node name="PlayerNode" type="Node3D" parent="."]
