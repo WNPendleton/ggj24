@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3ru7aa4ux3o6"]
+[gd_scene load_steps=9 format=3 uid="uid://b3ru7aa4ux3o6"]
 
 [ext_resource type="PackedScene" uid="uid://dv1x2eqq0s0lw" path="res://prefabs/player_character.tscn" id="1_hu0xq"]
+[ext_resource type="PackedScene" uid="uid://d4aut8qktt4sx" path="res://meshes/hyena.gltf" id="2_b4kbb"]
 
 [sub_resource type="Environment" id="Environment_jyqg2"]
 
@@ -48,3 +49,9 @@ shape = SubResource("BoxShape3D_d3orv")
 mesh = SubResource("BoxMesh_a1v7w")
 
 [node name="CharacterBody3D" parent="3DWorld" instance=ExtResource("1_hu0xq")]
+
+[node name="Hyena" type="CharacterBody3D" parent="3DWorld"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7217, -5.67777)
+
+[node name="Sketchfab_Scene" parent="." instance=ExtResource("2_b4kbb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.028955, 0.5, -5.11445)
