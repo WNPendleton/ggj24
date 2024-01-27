@@ -50,8 +50,5 @@ mesh = SubResource("BoxMesh_a1v7w")
 
 [node name="CharacterBody3D" parent="3DWorld" instance=ExtResource("1_hu0xq")]
 
-[node name="Hyena" type="CharacterBody3D" parent="3DWorld"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7217, -5.67777)
-
 [node name="Sketchfab_Scene" parent="." instance=ExtResource("2_b4kbb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.028955, 0.5, -5.11445)
