@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://lxckbuab8tub"]
+[gd_scene load_steps=3 format=3 uid="uid://lxckbuab8tub"]
 
-[ext_resource type="Script" path="res://scenes/UI.gd" id="1_nvc5y"]
+[ext_resource type="Script" path="res://scripts/humanhyenagame.gd" id="1_kutfo"]
+[ext_resource type="Script" path="res://scripts/UI.gd" id="1_nvc5y"]
 
 [node name="Game" type="Node"]
+script = ExtResource("1_kutfo")
 
 [node name="2DWorld" type="Node2D" parent="."]
 
@@ -26,12 +28,14 @@ offset_bottom = 12.0
 text = "Connect as Host"
 
 [node name="ClientButton" type="Button" parent="UI"]
+layout_mode = 0
 offset_top = 37.0
 offset_right = 133.0
 offset_bottom = 68.0
 text = "Connect as Client"
 
 [node name="StartGameButton" type="Button" parent="UI"]
+layout_mode = 0
 offset_left = 93.0
 offset_top = 144.0
 offset_right = 235.0

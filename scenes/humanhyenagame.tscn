@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://b3ru7aa4ux3o6"]
+[gd_scene load_steps=9 format=3 uid="uid://wahlf4nv4xu1"]
 
 [ext_resource type="PackedScene" uid="uid://dv1x2eqq0s0lw" path="res://prefabs/player_character.tscn" id="1_hu0xq"]
+[ext_resource type="Script" path="res://scripts/humanhyenagame.gd" id="1_u3qiu"]
 
 [sub_resource type="Environment" id="Environment_jyqg2"]
 
@@ -19,6 +20,7 @@ albedo_color = Color(1, 0.152941, 1, 1)
 material = SubResource("StandardMaterial3D_uoqs3")
 
 [node name="Node" type="Node"]
+script = ExtResource("1_u3qiu")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jyqg2")

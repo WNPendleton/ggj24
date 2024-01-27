@@ -1,6 +1,4 @@
 extends Control
-const PORT = 6968
-const MAX_CLIENTS = 4
 const SCENE_FILEPATH = "res://scenes/humanhyenagame.tscn"
 
 signal player_connected(peer_id)
@@ -28,17 +26,22 @@ func _process(delta):
 	
 func beginHosting():
 	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_server(PORT, MAX_CLIENTS)
+	var error = peer.create_server(ConnectionInfo.PORT, ConnectionInfo.MAX_CLIENTS)
 	if error:
 		print(error)
+	else:
+		ConnectionInfo.Host = true
 	multiplayer.multiplayer_peer = peer
 	
 func connectClient():
 	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(IpAddrTextEdit.text, PORT)
+	var error = peer.create_client(IpAddrTextEdit.text, ConnectionInfo.PORT)
 	if error:
 		print(error)
-	multiplayer.multiplayer_peer = peer
+	else:	
+		multiplayer.multiplayer_peer = peer
+		ConnectionInfo.IpAddress = IpAddrTextEdit.text
+		ConnectionInfo.Host = false
 
 func startGame():
 	pass
