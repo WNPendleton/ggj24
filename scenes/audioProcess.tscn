@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://de01301i3s2fj"]
+
+[ext_resource type="Script" path="res://scripts/SpeechRecognizer.cs" id="1_knnns"]
+[ext_resource type="Script" path="res://scripts/SpeechUIManager.cs" id="1_li5aq"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_e3i24"]
+
+[node name="AudioProcess" type="Node"]
+
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("startButton", "partialResultText", "finalResultText", "speechRecognizer")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_li5aq")
+startButton = NodePath("Button")
+partialResultText = NodePath("PartialResultOutput")
+finalResultText = NodePath("FinalResultOutput")
+speechRecognizer = NodePath("SpeechRecognizer")
+
+[node name="Panel" type="Panel" parent="Control"]
+layout_mode = 0
+offset_left = 234.0
+offset_top = 18.0
+offset_right = 864.0
+offset_bottom = 180.0
+
+[node name="FinalResultOutput" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 370.0
+offset_top = 102.0
+offset_right = 620.0
+offset_bottom = 147.0
+
+[node name="PartialResultOutput" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 366.0
+offset_top = 49.0
+offset_right = 669.0
+offset_bottom = 100.0
+
+[node name="Partial Result" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 247.0
+offset_top = 44.0
+offset_right = 350.0
+offset_bottom = 67.0
+text = "Partial Result"
+
+[node name="FinalResult" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 250.0
+offset_top = 101.0
+offset_right = 290.0
+offset_bottom = 124.0
+text = "Final Result"
+
+[node name="Button" type="Button" parent="Control"]
+layout_mode = 0
+offset_right = 46.0
+offset_bottom = 31.0
+text = "Start"
+metadata/_edit_use_anchors_ = true
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer" parent="Control"]
+stream = SubResource("AudioStreamMicrophone_e3i24")
+autoplay = true
+bus = &"Record"
+
+[node name="SpeechRecognizer" type="Node" parent="Control"]
+script = ExtResource("1_knnns")
+
+[connection signal="pressed" from="Control/Button" to="Control/SpeechRecognizer" method="_on_button_pressed"]
