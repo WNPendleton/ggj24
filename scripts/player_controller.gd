@@ -2,13 +2,8 @@ extends CharacterBody3D
 
 @export var SPEED = 5.0
 @export var JUMP_VELOCITY = 4.5
-@export var LOOK_SPEED = 0.01
-@export var max_rot_y = PI/2
 
 @onready var camera = get_node("Camera")
-
-var rot_x = 0
-var rot_y = 0
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -58,22 +53,11 @@ func _physics_process(delta):
 	#else:
 		#velocity.x = 0
 		#velocity.z = 0
-
+	transform.basis = Basis()
+	camera.transform.basis = Basis()
+	rotate_object_local(Vector3(0,1,0), -input.rot_x)
+	camera.rotate_object_local(Vector3(1,0,0), -input.rot_y)
 	move_and_slide()
-
-func _input(event):
-	if event is InputEventMouseMotion:
-		rot_x += event.relative.x * LOOK_SPEED
-		rot_y += event.relative.y * LOOK_SPEED
-		
-		if rot_y > max_rot_y:
-			rot_y = max_rot_y
-		if rot_y < -max_rot_y:
-			rot_y = -max_rot_y
-		transform.basis = Basis()
-		camera.transform.basis = Basis()
-		rotate_object_local(Vector3(0,1,0), -rot_x)
-		camera.rotate_object_local(Vector3(1,0,0), -rot_y)
 		
 @rpc("any_peer", "call_local", "reliable")
 func screech():
