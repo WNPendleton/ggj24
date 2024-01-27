@@ -13,6 +13,7 @@ var playersLoaded = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	multiplayer.peer_connected.connect(onPlayerConnect)
 	pass # Replace with function body.
 
 
@@ -38,11 +39,14 @@ func connectClient():
 
 func startGame():
 	pass
+
+func onPlayerConnect():
+	playerConnected.rpc()
 	
 @rpc("any_peer", "call_local", "reliable")
-func playerLoaded():
+func playerConnected():
 	if(multiplayer.is_server):
 		playersLoaded += 1
-		PlayerConnectedLabel.text = "Players connected: " + playersLoaded
+		PlayerConnectedLabel.text = "Players connected: " + str(playersLoaded)
 	print("New player connected")
 	
