@@ -23,9 +23,10 @@ func add_player(id: int):
 	character.name = str(id)
 	$PlayerNode.add_child(character, true)
 
-@rpc("authority", "call_remote", "reliable")
+@rpc("any_peer")
 func signal_player_connected():
-	readyCounter += 1
-	if readyCounter == multiplayer.get_peers():
-		for id in multiplayer.get_peers():
-			add_player(id)
+	if multiplayer.is_server():
+		readyCounter += 1
+		if readyCounter == multiplayer.get_peers():
+			for id in multiplayer.get_peers():
+				add_player(id)
