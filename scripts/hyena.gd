@@ -131,7 +131,7 @@ func kill_player(player):
 
 func test_player(player):
 	test_result = result.PENDING
-	player.administer_test.rpc_id(player.multiplayer.get_unique_id(), self, test_timer)
+	player.get_node("PlayerInput").administer_test.rpc_id(player.multiplayer.get_unique_id(), self, test_timer)
 
 func fail_test():
 	test_result = result.FAIL
