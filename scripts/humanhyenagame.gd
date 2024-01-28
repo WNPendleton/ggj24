@@ -2,6 +2,7 @@ extends Node
 
 const SPAWN_RANDOM := 5.0
 @export var CharacterPath : String
+@export var HyenaNode : Node3D
 var readyCounter = 0
 
 # Called when the node enters the scene tree for the first time.
@@ -21,7 +22,7 @@ func add_player(id: int):
 	var pos := Vector2.from_angle(randf() * 2 * PI)
 	character.position = Vector3(pos.x * SPAWN_RANDOM * randf(), 35, pos.y * SPAWN_RANDOM * randf())
 	character.name = str(id)
-	$PlayerNode.add_child(character, true)
+	get_node("3DWorld/PlayerNode").add_child(character, true)
 
 @rpc("any_peer")
 func signal_player_connected():
@@ -30,3 +31,5 @@ func signal_player_connected():
 		if readyCounter == multiplayer.get_peers().size():
 			for id in multiplayer.get_peers():
 				add_player(id)
+			for hyena in HyenaNode.get_children():
+				hyena.load_player_list.rpc()

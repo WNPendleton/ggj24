@@ -37,8 +37,11 @@ func _ready():
 		return
 	choose_wander_location()
 	anim.play("run")
-	player_list = player_parent.get_children()
 
+@rpc("any_peer", "call_local", "reliable")
+func load_player_list():
+	if multiplayer.is_server():
+		player_list = player_parent.get_children()
 
 func _physics_process(delta):
 	if !multiplayer.is_server():
@@ -46,11 +49,6 @@ func _physics_process(delta):
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
-	
-	if Input.is_action_just_pressed("debug_pass"):
-		pass_test()
-	if Input.is_action_just_pressed("debug_fail"):
-		fail_test()
 	
 	if my_state == state.KILL_PLAYER:
 		var player_location = player_target.global_transform.origin

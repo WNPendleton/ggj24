@@ -106,11 +106,6 @@ transform = Transform3D(0.141759, 0.218187, -0.965556, 0.0117514, 0.974967, 0.22
 [node name="RockSpike5" parent="3DWorld/Terrain" instance=ExtResource("4_51flv")]
 transform = Transform3D(0.125714, 0, -0.992067, -0.0396404, 0.999201, -0.00502321, 0.991274, 0.0399574, 0.125614, -63.6605, 15.7007, 48.5234)
 
-[node name="Hyena" parent="3DWorld" node_paths=PackedStringArray("player_parent", "ind") instance=ExtResource("6_53843")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.5542, 22.3751, -5.85728)
-player_parent = NodePath("../PlayerNode")
-ind = NodePath("../TargetIndicator")
-
 [node name="TargetIndicator" type="Node3D" parent="3DWorld"]
 visible = false
 
@@ -121,6 +116,13 @@ mesh = SubResource("SphereMesh_w6kn3")
 
 [node name="CharacterBody3D" parent="3DWorld/PlayerNode" instance=ExtResource("1_hu0xq")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.7168, 34.9602, -37.0761)
+
+[node name="HyenaNode" type="Node3D" parent="3DWorld"]
+
+[node name="Hyena" parent="3DWorld/HyenaNode" node_paths=PackedStringArray("player_parent", "ind") instance=ExtResource("6_53843")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.5542, 22.3751, -5.85728)
+player_parent = NodePath("../../PlayerNode")
+ind = NodePath("../../TargetIndicator")
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://prefabs/player_character.tscn")
