@@ -32,11 +32,15 @@ var test_timer = 5
 
 
 func _ready():
+	if !multiplayer.is_server():
+		return
 	choose_wander_location()
 	anim.play("run")
 
 
 func _physics_process(delta):
+	if !multiplayer.is_server():
+		return
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
