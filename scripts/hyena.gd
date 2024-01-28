@@ -1,8 +1,11 @@
 extends CharacterBody3D
 
 const WALK_SPEED = 1.0
-const APPROACH_SPEED = 2.0
-const CHASE_SPEED = 4.0
+const WALK_ANIM_SPEED = 0.66
+const APPROACH_SPEED = 3.0
+const APPROACH_ANIM_SPEED = 1.0
+const CHASE_SPEED = 9.0
+const CHASE_ANIM_SPEED = 1.5
 const PLAYER_NOTICE_RANGE = 10.0
 const PLAYER_TEST_RANGE = 5.0
 const APPROACH_PATIENCE_TIME = 4.8
@@ -43,6 +46,11 @@ func _physics_process(delta):
 		#my_state = state.WANDER
 		pass
 	elif my_state == state.APPROACH_PLAYER:
+		anim.speed_scale = APPROACH_ANIM_SPEED
+		var player_location = player_target.global_transform.origin
+		var dir = global_transform.origin.direction_to(Vector3(player_location.x, global_transform.origin.y, player_location.z))
+		velocity = dir * WALK_SPEED
+		look_at(player_target.global_transform.origin)
 		var dist_to_player_target = global_transform.origin.distance_to(player_target.global_transform.origin)
 		if dist_to_player_target <= PLAYER_TEST_RANGE:
 			my_state = state.TEST_PLAYER
@@ -54,7 +62,7 @@ func _physics_process(delta):
 		#my_state = state.APPROACH_PLAYER
 		pass
 	elif my_state == state.WANDER:
-		anim.speed_scale = 0.66
+		anim.speed_scale = WALK_ANIM_SPEED
 		idle_time -= delta
 		if idle_time <= 0:
 			anim.play("run")
@@ -66,6 +74,7 @@ func _physics_process(delta):
 			velocity = Vector3.ZERO
 		for player in player_list:
 			if global_transform.origin.distance_to(player.global_transform.origin) < PLAYER_NOTICE_RANGE:
+				print("you stinky")
 				player_target = player
 				my_state = state.APPROACH_PLAYER
 				time_in_approach = 0
