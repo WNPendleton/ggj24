@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dv1x2eqq0s0lw" path="res://prefabs/player_character.tscn" id="1_hu0xq"]
 [ext_resource type="Script" path="res://scripts/humanhyenagame.gd" id="1_u3qiu"]
 [ext_resource type="Shader" path="res://shaders/sky.gdshader" id="2_s6w75"]
-[ext_resource type="PackedScene" path="res://prefabs/rock_arch.tscn" id="2_wjdv6"]
+[ext_resource type="PackedScene" uid="uid://bw2x23krhen7t" path="res://prefabs/rock_arch.tscn" id="2_wjdv6"]
 [ext_resource type="PackedScene" path="res://prefabs/rock_mound.tscn" id="3_f6y0y"]
 [ext_resource type="PackedScene" path="res://prefabs/rock_spike.tscn" id="4_51flv"]
 [ext_resource type="PackedScene" path="res://prefabs/hyena.tscn" id="6_53843"]
