@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bwcq7ootrnvcx"]
+[gd_scene load_steps=4 format=3 uid="uid://bwcq7ootrnvcx"]
 
 [ext_resource type="ArrayMesh" uid="uid://bgbrh1c5rbqh0" path="res://meshes/rockmound.obj" id="1_ir12l"]
+[ext_resource type="Material" uid="uid://c7tnhuby8o56a" path="res://materials/rock.tres" id="2_1pjxk"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_be2dy"]
 points = PackedVector3Array(-1.1303, 5.71406e-05, -3.56102, -1.13074, 0.222897, -3.56243, 3.54626, 0.00302411, -1.21507, 0.621526, 2.50382, -1.47739, -3.63184, 0.407647, 1.40859, 3.01914, 1.34092, 1.05839, -0.935903, 2.46007, 0.0085001, -1.21092, 2.31605, -2.71043, 2.29829, 1.5579, -2.3041, -3.46755, 0.00171075, -1.32799, -1.9093, 0.00112096, 3.35162, -0.598432, 0.757887, 3.39285, 2.30942, 0.00990873, 2.55343, 2.32715, 0.000199238, -3.00234, -0.126416, 1.786, -3.34658, -3.39862, 0.524306, -1.62482, -3.16539, 1.10786, 0.591933, 1.59309, 1.53379, 1.7167, -1.64832, 0.641228, 3.27587, -1.30646, 2.52147, -1.93004, -1.56898, 1.56033, -3.21145, 3.34659, 0.106321, 1.35299, 0.68468, 0.641228, 3.27587, -0.015, 2.41993, -2.59156, 0.491884, 2.45033, -0.397262, -3.45252, 0.00728846, 1.56084, 0.766431, 0.780532, -3.45302, 0.0952595, 0.00182691, 3.57309, 2.53642, 0.672908, -2.76463, -1.5765, -0.000236942, -3.45, -2.93216, 0.757887, 1.87578, 2.35172, 1.65931, -1.92815)
@@ -10,6 +11,7 @@ points = PackedVector3Array(-1.1303, 5.71406e-05, -3.56102, -1.13074, 0.222897, 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = ExtResource("1_ir12l")
 skeleton = NodePath("../../../..")
+surface_material_override/0 = ExtResource("2_1pjxk")
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_be2dy")
