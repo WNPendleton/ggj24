@@ -28,7 +28,7 @@ properties/2/replication_mode = 1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hufik"]
 
-[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_8ufhd"]
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_f5ojr"]
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.265, 0)
@@ -56,7 +56,7 @@ mesh = SubResource("CapsuleMesh_hufik")
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 autoplay = true
 
-[node name="AudioStreamPlayer3DRecord" type="AudioStreamPlayer3D" parent="."]
-stream = SubResource("AudioStreamMicrophone_8ufhd")
+[node name="AudioStreamPlayerRecord" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamMicrophone_f5ojr")
 autoplay = true
 bus = &"Record"

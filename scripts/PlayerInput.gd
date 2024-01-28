@@ -2,6 +2,7 @@ extends MultiplayerSynchronizer
 
 @export var jumping := false
 @export var direction := Vector2()
+@onready var audioPlayer = get_parent().get_node("AudioStreamPlayer3D")
 
 @export var rot_x = 0
 @export var rot_y = 0
@@ -25,8 +26,9 @@ func send_rec_data(rec):
 	#sample.data = rec_data
 	#sample.format = AudioStreamWAV.FORMAT_16_BITS
 	#sample.mix_rate = AudioServer.get_mix_rate() * 2
-	$AudioStreamPlayer3D.stream = rec
-	$AudioStreamPlayer3D.play()
+	if audioPlayer:
+		audioPlayer.stream = rec
+		audioPlayer.play()
 	
 @rpc("call_local")
 func jump():
@@ -37,10 +39,12 @@ func _process(delta):
 	direction = Input.get_vector("strafe-left", "strafe-right", "forward", "backward")
 	if Input.is_action_just_pressed("jump"):
 		jump.rpc()
-	recording = effect.get_recording()
-	effect.set_recording_active(false)
-	rpc("send_rec_data", recording)
-	effect.set_recording_active(true)
+	var rec = effect.get_recording()
+	if rec:
+		recording = rec
+		#effect.set_recording_active(false)
+		rpc("send_rec_data", recording)
+		#effect.set_recording_active(true)
 		
 func _input(event):
 	if event is InputEventMouseMotion:
