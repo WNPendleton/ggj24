@@ -53,6 +53,7 @@ public partial class SpeechRecognizer : Node
 
 	public override void _Ready()
 	{
+		SetProcess(this.GetMultiplayerAuthority() == Multiplayer.GetUniqueId());
 		IntializeOSSpecificLibs(); //Doesn't seem to automatically load these libs
 		recordBusIdx = AudioServer.GetBusIndex(recordBusName);
 
