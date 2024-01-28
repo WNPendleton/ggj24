@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dv1x2eqq0s0lw"]
+[gd_scene load_steps=9 format=3 uid="uid://dv1x2eqq0s0lw"]
 
 [ext_resource type="Script" path="res://scripts/player_controller.gd" id="1_tlqjf"]
 [ext_resource type="Script" path="res://scripts/PlayerInput.gd" id="2_itt7v"]
@@ -28,6 +28,8 @@ properties/2/replication_mode = 1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hufik"]
 
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_8ufhd"]
+
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.265, 0)
 script = ExtResource("1_tlqjf")
@@ -50,3 +52,11 @@ script = ExtResource("2_itt7v")
 [node name="face" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.0281102, 0, 0.435009, 0, 0.102997, 0, -0.837227, 0, 0.0146056, -0.0133359, 0.0711384, -0.425378)
 mesh = SubResource("CapsuleMesh_hufik")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+autoplay = true
+
+[node name="AudioStreamPlayer3DRecord" type="AudioStreamPlayer3D" parent="."]
+stream = SubResource("AudioStreamMicrophone_8ufhd")
+autoplay = true
+bus = &"Record"
