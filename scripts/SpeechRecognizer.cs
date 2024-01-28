@@ -5,6 +5,10 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Vosk;
+using Godot.Collections;
+using System.Collections.Generic;
+
+
 
 public partial class SpeechRecognizer : Node
 {
@@ -22,23 +26,38 @@ public partial class SpeechRecognizer : Node
 	[Signal]
 	public delegate void OnPartialResultEventHandler(string partialResults);
 	[Signal]
-	public delegate void OnFinalResultEventHandler(string finalResults);
+	public delegate void OnFinalResultEventHandler(string finalResults, Godot.Collections.Array<double> freq);
 	private int recordBusIdx;
 	private AudioEffectRecord _microphoneRecord;  // The microphone recording bus effect
+	private AudioEffectSpectrumAnalyzerInstance _spectrum;  // The microphone recording bus effect
 	private bool isListening = false;
 	private Model model;
 	private string partialResult;
 	private string finalResult;
+	private Godot.Collections.Array<double> finalFreqResult;
 	private ulong recordTimeStart;
 	private ulong noChangeTimeOutStart;
 	private CancellationTokenSource cancelToken;
 	private double processInterval = 0.2;
+	const int VU_COUNT = 16;
+	private float FREQ_MAX = 11050.0F;
+
+	private int WIDTH = 400;
+	private int HEIGHT = 100;
+
+	private float MIN_DB = 60F;
+	
+	private bool stereo = true;
+	private int mix_rate = 44100;
+	private int format = 1;
 
 	public override void _Ready()
 	{
 		IntializeOSSpecificLibs(); //Doesn't seem to automatically load these libs
 		recordBusIdx = AudioServer.GetBusIndex(recordBusName);
+
 		_microphoneRecord = AudioServer.GetBusEffect(recordBusIdx, 0) as AudioEffectRecord;
+		_spectrum = AudioServer.GetBusEffectInstance(recordBusIdx, 1) as AudioEffectSpectrumAnalyzerInstance;
 		model = new Model(ProjectSettings.GlobalizePath(modelPath));
 		Vosk.Vosk.SetLogLevel(0);
 		cancelToken = new CancellationTokenSource();
@@ -112,8 +131,27 @@ public partial class SpeechRecognizer : Node
 			var recordedSample = _microphoneRecord.GetRecording();
 			if (recordedSample != null)
 			{
+				recordedSample.Stereo = stereo;
+				recordedSample.MixRate = mix_rate;
+
 				VoskRecognizer recognizer = new(model, recordedSample.MixRate);
 				byte[] data = recordedSample.Stereo ? MixStereoToMono(recordedSample.Data) : recordedSample.Data;
+				var w = WIDTH / VU_COUNT;
+			float prev_hz = 0F;
+			//var freq = new Godot.Collections.Array{};
+			//for(int i = 0; i < VU_COUNT+1; i++){
+				var hz = FREQ_MAX / VU_COUNT;
+				var magnitude = _spectrum.GetMagnitudeForFrequencyRange(prev_hz, hz).Length();
+				var energy = Math.Clamp((MIN_DB + Mathf.LinearToDb(magnitude)) / MIN_DB, 0, 1);
+				var height = energy * HEIGHT;
+				//DrawRect(new Rect2(w * i, HEIGHT - height, w, height), Colors.White);
+
+				
+				prev_hz = hz;
+				//}
+			finalFreqResult.Add(height);
+			GD.Print(finalFreqResult);
+
 				if (!recognizer.AcceptWaveform(data, data.Length))
 				{
 					string currentPartialResult = recognizer.PartialResult();
@@ -123,21 +161,24 @@ public partial class SpeechRecognizer : Node
 						noChangeTimeOutStart = Time.GetTicksMsec();
 						CallDeferred("emit_signal", "OnPartialResult", partialResult);
 					}
-					EndRecognition(recognizer);
+					EndRecognition(recognizer, finalFreqResult);
 				}
 				else if (!continuousRecognition) // Completed recognition
 				{
-					EndRecognition(recognizer);
+					EndRecognition(recognizer, finalFreqResult);
 					StopSpeechRecoginition();
 				}
 			}
 
 		}
 	}
+	
+	
 
-	private void EndRecognition(VoskRecognizer recognizer)
+	private void EndRecognition(VoskRecognizer recognizer,Godot.Collections.Array<double> freq)
 	{
 		finalResult = recognizer.FinalResult();
+		finalFreqResult = freq;
 		recognizer.Dispose(); //cleanup
 	}
 
@@ -150,6 +191,7 @@ public partial class SpeechRecognizer : Node
 		cancelToken = new CancellationTokenSource();
 		partialResult = "";
 		finalResult = "";
+		finalFreqResult = new Godot.Collections.Array<double>{};
 		recordTimeStart = Time.GetTicksMsec();
 		noChangeTimeOutStart = Time.GetTicksMsec();
 		isListening = true;
@@ -160,16 +202,16 @@ public partial class SpeechRecognizer : Node
 		StartContinuousSpeechRecognition();
 	}
 
-	public string StopSpeechRecoginition()
+	public (string, Godot.Collections.Array<double>) StopSpeechRecoginition()
 	{
 		isListening = false;
 		cancelToken.Cancel();
 		if (_microphoneRecord.IsRecordingActive())
 		{
 			_microphoneRecord.SetRecordingActive(false);
-			CallDeferred("emit_signal", "OnFinalResult", finalResult);
+			CallDeferred("emit_signal", "OnFinalResult", finalResult, finalFreqResult);
 		}
-		return finalResult;
+		return (finalResult, finalFreqResult);
 	}
 
 	private byte[] MixStereoToMono(byte[] input)

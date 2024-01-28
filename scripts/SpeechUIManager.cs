@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using System.Text.RegularExpressions;
-
+using System.Collections.Generic;
 public partial class SpeechUIManager : Node
 {
 	[Export] Button startButton;
@@ -11,6 +11,7 @@ public partial class SpeechUIManager : Node
 
 	private string partialResult;
 	private string finalResult;
+	
 
 	public override void _Ready()
 	{
@@ -26,16 +27,28 @@ public partial class SpeechUIManager : Node
 			else
 			{
 				OnStopSpeechRecognition();
-				finalResult = speechRecognizer.StopSpeechRecoginition();
+				(string finalResult, Godot.Collections.Array<double> freq) = speechRecognizer.StopSpeechRecoginition();
 			}
 		};
 		speechRecognizer.OnPartialResult += (partialResult) =>
 		{
 			partialResultText.Text = partialResult;
 		};
-		speechRecognizer.OnFinalResult += (finalResult) =>
+		
+		speechRecognizer.OnFinalResult += (finalResult, freq) =>
 		{
 			MatchCollection mc = Regex.Matches(finalResult, @"h[a(ey?)(oe?)]");
+			GD.Print("Freq ", freq);
+			var laughModel = new Godot.Collections.Array<double>{2.95042037963867, 0, 34.6490516662598, 50.354248046875, 10.9075927734375};
+			var testFreq = new Godot.Collections.Array<double>{};
+			var comparisonSum = 0;
+			for(int i = 0; i < 5; i++){
+				comparisonSum += ((int)laughModel[i] - (int)freq[i]);
+			}
+			
+			GD.Print("Compare ", comparisonSum);
+			
+			
 			if (mc.Count >= 3) {
 				finalResult = "live";
 			}

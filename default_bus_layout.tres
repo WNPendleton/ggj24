@@ -1,7 +1,10 @@
-[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://cwwvtfxmijj3f"]
+[gd_resource type="AudioBusLayout" load_steps=3 format=3 uid="uid://dc6028n2er6xw"]
 
 [sub_resource type="AudioEffectRecord" id="AudioEffectRecord_yshq6"]
 resource_name = "Record"
+
+[sub_resource type="AudioEffectSpectrumAnalyzer" id="AudioEffectSpectrumAnalyzer_ahydv"]
+resource_name = "SpectrumAnalyzer"
 
 [resource]
 bus/1/name = &"Record"
@@ -12,3 +15,5 @@ bus/1/volume_db = -5.625
 bus/1/send = &"Master"
 bus/1/effect/0/effect = SubResource("AudioEffectRecord_yshq6")
 bus/1/effect/0/enabled = true
+bus/1/effect/1/effect = SubResource("AudioEffectSpectrumAnalyzer_ahydv")
+bus/1/effect/1/enabled = true
