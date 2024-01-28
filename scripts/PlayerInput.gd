@@ -60,7 +60,7 @@ func _input(event):
 func administer_test(hyena, testTimer):
 	#if multiplayer.get_unique_id() == id:
 	print("Administering test for " + str(testTimer) + " seconds")
-	$ProcessPlayerLaugh._ready()
+	get_parent().get_node("ProcessPlayerLaugh")._ready()
 	if Input.is_action_pressed("debug_fail"):
 		hyena.complete_test.rpc(false)
 	elif Input.is_action_pressed("debug_pass"):

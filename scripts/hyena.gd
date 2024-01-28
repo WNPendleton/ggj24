@@ -140,9 +140,9 @@ func pass_test():
 	test_result = result.PASS
 	
 @rpc("any_peer", "call_local", "reliable")
-func complete_test(result):
+func complete_test(testResult):
 	if multiplayer.is_server():
-		if result:
-			test_result = result.PASS
+		if testResult:
+			test_result = testResult.PASS
 		else:
-			test_result = result.FAIL
+			test_result = testResult.FAIL

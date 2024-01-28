@@ -12,7 +12,9 @@ public partial class SpeechUIManager : Node
 	
 
 	public override void _Ready()
-	{
+	{		
+			SetProcess(this.GetMultiplayerAuthority() == Multiplayer.GetUniqueId());
+
 		
 			if (!speechRecognizer.isCurrentlyListening())
 			{

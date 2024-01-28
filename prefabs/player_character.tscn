@@ -30,7 +30,7 @@ properties/2/replication_mode = 1
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hufik"]
 
-[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_v20hc"]
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_r2w2l"]
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.265, 0)
@@ -63,6 +63,7 @@ speechRecognizer = NodePath("SpeechRecognizer")
 script = ExtResource("4_deusr")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="ProcessPlayerLaugh"]
-stream = SubResource("AudioStreamMicrophone_v20hc")
+stream = SubResource("AudioStreamMicrophone_r2w2l")
 autoplay = true
+max_polyphony = 4
 bus = &"Record"
