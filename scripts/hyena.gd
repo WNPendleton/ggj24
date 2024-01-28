@@ -15,7 +15,7 @@ const TEST_RANGE_ALLOWED = 10.0
 enum state {WANDER, SEEK_NOISE, APPROACH_PLAYER, TEST_PLAYER, LEAVE_PLAYER, KILL_PLAYER}
 enum result {PENDING, PASS, FAIL}
 
-@export var player_list: Array[Player]
+@export var player_parent: Node3D
 @export var ind: Node3D
 
 var my_state = state.WANDER
@@ -26,6 +26,7 @@ var time_in_approach = 0.0
 var test_result
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var test_timer = 5
+var player_list
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
@@ -36,6 +37,7 @@ func _ready():
 		return
 	choose_wander_location()
 	anim.play("run")
+	player_list = player_parent.get_children()
 
 
 func _physics_process(delta):
