@@ -5,8 +5,6 @@ using System.Collections.Generic;
 public partial class SpeechUIManager : Node
 {
 	[Export] Button startButton;
-	[Export] Label partialResultText;
-	[Export] Label finalResultText;
 	[Export] SpeechRecognizer speechRecognizer;
 
 	private string partialResult;
@@ -19,8 +17,7 @@ public partial class SpeechUIManager : Node
 		{
 			if (!speechRecognizer.isCurrentlyListening())
 			{
-				partialResultText.Text = "";
-				finalResultText.Text = "";
+				
 				OnStartSpeechRecognition();
 				speechRecognizer.StartSpeechRecognition();
 			}
@@ -32,8 +29,8 @@ public partial class SpeechUIManager : Node
 		};
 		speechRecognizer.OnPartialResult += (partialResult, freq) =>
 		{
-			partialResultText.Text = partialResult;
 			GD.Print("Partial Freq ", freq);
+			GD.Print("Partial Word ", partialResult);
 
 		};
 		
@@ -41,14 +38,15 @@ public partial class SpeechUIManager : Node
 		{
 			MatchCollection mc = Regex.Matches(finalResult, @"h[a(ey?)(oe?)]");
 			GD.Print("Freq ", freq);
-			var laughModel = new Godot.Collections.Array<int>{3, 0, 35, 50, 11};
+			var laughModel = new Godot.Collections.Array<int>{12, 0, 5, 16, 0, 2};
 			var comparisonSum = 0;
-			for(int i = 0; i < 5; i++){
-				comparisonSum += laughModel[i] - freq[i];
+			for(int i = 0; i < 4; i++){
+				comparisonSum += Math.Abs(laughModel[i] - freq[i]);
 			}
 			
 			GD.Print("Compare ", comparisonSum);
-			
+			GD.Print("Compare Avg", comparisonSum / 4);
+
 			
 			if (mc.Count >= 3) {
 				finalResult = "live";
@@ -56,7 +54,7 @@ public partial class SpeechUIManager : Node
 			else {
 				finalResult = "die";
 			}
-			finalResultText.Text = finalResult;
+			GD.Print(finalResult);
 			OnStopSpeechRecognition();
 		};
 	}

@@ -7,15 +7,13 @@
 
 [node name="AudioProcess" type="Node"]
 
-[node name="Control" type="Control" parent="." node_paths=PackedStringArray("startButton", "partialResultText", "finalResultText", "speechRecognizer")]
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("startButton", "speechRecognizer")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_li5aq")
 startButton = NodePath("Button")
-partialResultText = NodePath("PartialResultOutput")
-finalResultText = NodePath("FinalResultOutput")
 speechRecognizer = NodePath("SpeechRecognizer")
 
 [node name="Panel" type="Panel" parent="Control"]

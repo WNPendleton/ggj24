@@ -162,7 +162,7 @@ public partial class SpeechRecognizer : Node
 						partialResult = currentPartialResult;
 						noChangeTimeOutStart = Time.GetTicksMsec();
 						
-						CallDeferred("emit_signal", "OnPartialResult", partialResult, finalFreqResult);
+						// CallDeferred("emit_signal", "OnPartialResult", partialResult, finalFreqResult);
 					}
 					EndRecognition(recognizer, finalFreqResult);
 				}
