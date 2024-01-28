@@ -51,6 +51,11 @@ func _physics_process(delta):
 	
 	if not is_on_floor():
 		velocity.y -= gravity * delta
+		
+	if Input.is_action_just_pressed("debug_pass"):
+		pass_test()
+	if Input.is_action_just_pressed("debug_fail"):
+		fail_test()
 	
 	if my_state == state.KILL_PLAYER:
 		var player_location = player_target.global_transform.origin

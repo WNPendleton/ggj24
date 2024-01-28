@@ -31,8 +31,9 @@ data = PackedVector3Array(40.249, 8.8284, -92.4575, 21.1477, 18.7893, -75.5499, 
 
 [sub_resource type="SphereMesh" id="SphereMesh_w6kn3"]
 
-[node name="Node" type="Node"]
+[node name="Node" type="Node" node_paths=PackedStringArray("HyenaNode")]
 script = ExtResource("1_u3qiu")
+HyenaNode = NodePath("3DWorld/HyenaNode")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jyqg2")

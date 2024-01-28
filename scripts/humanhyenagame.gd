@@ -1,7 +1,6 @@
 extends Node
 
 const SPAWN_RANDOM := 5.0
-@export var CharacterPath : String
 @export var HyenaNode : Node3D
 var readyCounter = 0
 
