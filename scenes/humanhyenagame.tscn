@@ -11,6 +11,10 @@ shader_parameter/horizonColor = Color(0.831373, 0.882353, 1, 1)
 
 [sub_resource type="Sky" id="Sky_yx36d"]
 sky_material = SubResource("ShaderMaterial_2ifp4")
+[gd_scene load_steps=9 format=3 uid="uid://wahlf4nv4xu1"]
+
+[ext_resource type="PackedScene" uid="uid://dv1x2eqq0s0lw" path="res://prefabs/player_character.tscn" id="1_hu0xq"]
+[ext_resource type="Script" path="res://scripts/humanhyenagame.gd" id="1_u3qiu"]
 
 [sub_resource type="Environment" id="Environment_jyqg2"]
 background_mode = 2
@@ -45,6 +49,7 @@ material = SubResource("StandardMaterial3D_a5n32")
 size = Vector3(100, 1, 100)
 
 [node name="Node" type="Node"]
+script = ExtResource("1_u3qiu")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_jyqg2")
@@ -70,3 +75,9 @@ mesh = SubResource("BoxMesh_0au67")
 [node name="Hyena" parent="3DWorld" node_paths=PackedStringArray("player_list") instance=ExtResource("2_env21")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.451224, 0.487768, 21.1613)
 player_list = [NodePath("../CharacterBody3D")]
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://prefabs/player_character.tscn")
+spawn_path = NodePath("../PlayerNode")
+spawn_limit = 4
+
+[node name="PlayerNode" type="Node3D" parent="."]
