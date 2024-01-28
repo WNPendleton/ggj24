@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ycinh240tw3" path="res://prefabs/rock_arch.tscn" id="2_wjdv6"]
 [ext_resource type="PackedScene" uid="uid://bwcq7ootrnvcx" path="res://prefabs/rock_mound.tscn" id="3_f6y0y"]
 [ext_resource type="ArrayMesh" uid="uid://b8vsuyj8dvvpg" path="res://meshes/ground.obj" id="3_gp4t1"]
-[ext_resource type="PackedScene" uid="uid://bd614ift4wr5y" path="res://prefabs/rock_spike.tscn" id="4_51flv"]
+[ext_resource type="PackedScene" uid="uid://bd614ift4wr5y" path="res://scenes/rock_spike.tscn" id="4_51flv"]
 [ext_resource type="Material" uid="uid://cde1xqmg3d1jj" path="res://materials/dirt.tres" id="4_hv2ad"]
 [ext_resource type="PackedScene" uid="uid://cgv8xl2lfcvah" path="res://prefabs/hyena.tscn" id="6_53843"]
 

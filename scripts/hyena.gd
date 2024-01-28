@@ -106,7 +106,7 @@ func _physics_process(delta):
 		if dist_to_player_target <= PLAYER_TEST_RANGE:
 			velocity = Vector3.ZERO
 			anim.stop()
-			play_growl()
+			play_growl.rpc()
 			my_state = state.TEST_PLAYER
 			test_player(player_target)
 		if time_in_approach > APPROACH_PATIENCE_TIME:
@@ -145,13 +145,13 @@ func choose_wander_location():
 	anim.stop()
 
 func go_to_kill_state():
-	play_growl()
+	play_growl.rpc()
 	my_state = state.KILL_PLAYER
 	anim.play("run")
 	anim.speed_scale = CHASE_ANIM_SPEED
 
 func kill_player(player):
-	play_maul()
+	play_maul.rpc()
 	print("you dead")
 	player.global_transform.origin = Vector3(randf_range(-45, 45), 35, randf_range(-45, 45))
 	my_state = state.WANDER
@@ -184,10 +184,12 @@ func complete_test(result):
 		else:
 			test_result = result.FAIL
 
+@rpc("any_peer", "call_local", "reliable")
 func play_growl():
 	audio.stream = growl_sounds.pick_random()
 	audio.play()
 
+@rpc("any_peer", "call_local", "reliable")
 func play_maul():
 	audio.stream = kill_sounds.pick_random()
 	audio.play()
