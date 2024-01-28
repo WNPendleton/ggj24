@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 public partial class SpeechUIManager : Node
 {
-	[Export] Button startButton;
+
 	[Export] SpeechRecognizer speechRecognizer;
 
 	private string partialResult;
@@ -13,20 +13,19 @@ public partial class SpeechUIManager : Node
 
 	public override void _Ready()
 	{
-		startButton.Pressed += () =>
-		{
+		
 			if (!speechRecognizer.isCurrentlyListening())
 			{
 				
-				OnStartSpeechRecognition();
+				//OnStartSpeechRecognition();
 				speechRecognizer.StartSpeechRecognition();
 			}
 			else
 			{
-				OnStopSpeechRecognition();
+				//OnStopSpeechRecognition();
 				(string finalResult, Godot.Collections.Array<int> freq) = speechRecognizer.StopSpeechRecoginition();
 			}
-		};
+			
 		speechRecognizer.OnPartialResult += (partialResult, freq) =>
 		{
 			GD.Print("Partial Freq ", freq);
@@ -55,7 +54,7 @@ public partial class SpeechUIManager : Node
 				finalResult = "die";
 			}
 			GD.Print(finalResult);
-			OnStopSpeechRecognition();
+			//OnStopSpeechRecognition();
 		};
 	}
 
@@ -63,16 +62,16 @@ public partial class SpeechUIManager : Node
 	{
 	}
 
-	private void OnStopSpeechRecognition()
-	{
-		startButton.Text = "Start Recognition";
-		startButton.Modulate = new Color(1, 1, 1, 1f);
-	}
-
-
-	private void OnStartSpeechRecognition()
-	{
-		startButton.Text = "Stop Recognition";
-		startButton.Modulate = new Color(1f, 0.5f, 0.5f, 1f);
-	}
+	//private void OnStopSpeechRecognition()
+	//{
+		////startButton.Text = "Start Recognition";
+		////startButton.Modulate = new Color(1, 1, 1, 1f);
+	//}
+//
+//
+	//private void OnStartSpeechRecognition()
+	//{
+		//startButton.Text = "Stop Recognition";
+		//startButton.Modulate = new Color(1f, 0.5f, 0.5f, 1f);
+	//}
 }

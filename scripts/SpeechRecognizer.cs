@@ -18,11 +18,11 @@ public partial class SpeechRecognizer : Node
 	[Export(PropertyHint.None, "The name of the bus that contains the record effect")]
 	string recordBusName = "Record";
 	[Export(PropertyHint.None, "Stop recognition after x milliseconds")]
-	long timeoutInMS = 10000;
+	long timeoutInMS = 5000;
 	[Export(PropertyHint.None, "Stop recognition if there is no change in output for x milliseconds.")]
-	long noChangeTimeoutInMS = 3000;
+	long noChangeTimeoutInMS = 500;
 	[Export(PropertyHint.None, "Don't stop recongizer until timeout.")]
-	bool continuousRecognition = false;
+	bool continuousRecognition = true;
 	[Signal]
 	public delegate void OnPartialResultEventHandler(string partialResults, Godot.Collections.Array<int> freq );
 	[Signal]
@@ -38,14 +38,14 @@ public partial class SpeechRecognizer : Node
 	private ulong recordTimeStart;
 	private ulong noChangeTimeOutStart;
 	private CancellationTokenSource cancelToken;
-	private double processInterval = 0.2;
+	private double processInterval = 0.05;
 	const int VU_COUNT = 8;
 	private float FREQ_MAX = 11050.0F;
 
 	private int WIDTH = 400;
 	private int HEIGHT = 100;
 
-	private float MIN_DB = 80F;
+	private float MIN_DB = 100F;
 	
 	private bool stereo = true;
 	private int mix_rate = 44100;
@@ -56,8 +56,8 @@ public partial class SpeechRecognizer : Node
 		IntializeOSSpecificLibs(); //Doesn't seem to automatically load these libs
 		recordBusIdx = AudioServer.GetBusIndex(recordBusName);
 
-		_microphoneRecord = AudioServer.GetBusEffect(recordBusIdx, 0) as AudioEffectRecord;
-		_spectrum = AudioServer.GetBusEffectInstance(recordBusIdx, 1) as AudioEffectSpectrumAnalyzerInstance;
+		_microphoneRecord = AudioServer.GetBusEffect(1, 0) as AudioEffectRecord;
+		_spectrum = AudioServer.GetBusEffectInstance(1, 1) as AudioEffectSpectrumAnalyzerInstance;
 		model = new Model(ProjectSettings.GlobalizePath(modelPath));
 		Vosk.Vosk.SetLogLevel(0);
 		cancelToken = new CancellationTokenSource();

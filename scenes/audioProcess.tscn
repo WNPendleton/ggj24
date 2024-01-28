@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cuvsdsay0nlek"]
+[gd_scene load_steps=4 format=3 uid="uid://dhf242qtq3viu"]
 
 [ext_resource type="Script" path="res://scripts/SpeechRecognizer.cs" id="1_knnns"]
 [ext_resource type="Script" path="res://scripts/SpeechUIManager.cs" id="1_li5aq"]
@@ -7,13 +7,12 @@
 
 [node name="AudioProcess" type="Node"]
 
-[node name="Control" type="Control" parent="." node_paths=PackedStringArray("startButton", "speechRecognizer")]
+[node name="Control" type="Control" parent="." node_paths=PackedStringArray("speechRecognizer")]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_li5aq")
-startButton = NodePath("Button")
 speechRecognizer = NodePath("SpeechRecognizer")
 
 [node name="Panel" type="Panel" parent="Control"]
@@ -63,6 +62,7 @@ metadata/_edit_use_anchors_ = true
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer" parent="Control"]
 stream = SubResource("AudioStreamMicrophone_e3i24")
 autoplay = true
+max_polyphony = 4
 bus = &"Record"
 
 [node name="SpeechRecognizer" type="Node" parent="Control"]
