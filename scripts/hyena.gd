@@ -27,6 +27,7 @@ var test_result
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var test_timer = 5
 var player_list
+var loaded = false
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
@@ -42,9 +43,10 @@ func _ready():
 func load_player_list():
 	if multiplayer.is_server():
 		player_list = player_parent.get_children()
+		loaded = true
 
 func _physics_process(delta):
-	if !multiplayer.is_server():
+	if !multiplayer.is_server() || !loaded:
 		return
 	
 	if not is_on_floor():
