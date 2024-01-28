@@ -21,6 +21,7 @@ var location_target: Vector3
 var idle_time = 0.0
 var time_in_approach = 0.0
 var test_result
+var test_timer = 5
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @export var player_list: Array[Player]
@@ -130,9 +131,18 @@ func kill_player(player):
 
 func test_player(player):
 	test_result = result.PENDING
+	player.administer_test.rpc_id(player.multiplayer.get_unique_id(), self, test_timer)
 
 func fail_test():
 	test_result = result.FAIL
 
 func pass_test():
 	test_result = result.PASS
+	
+@rpc("any_peer", "call_local", "reliable")
+func complete_test(result):
+	if multiplayer.is_server():
+		if result:
+			test_result = result.PASS
+		else:
+			test_result = result.FAIL
