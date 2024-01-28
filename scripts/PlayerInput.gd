@@ -9,9 +9,30 @@ extends MultiplayerSynchronizer
 const max_rot_y = PI/2
 const LOOK_SPEED = 0.01
 
+var effect
+var recording
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	var idx = AudioServer.get_bus_index("Record")
+	effect = AudioServer.get_bus_effect(idx, 0)
+	effect.set_recording_active(true)
+	
+func _on_send_recording_timer_timeout():
+	recording = effect.get_recording()
+	effect.set_recording_active(false)
+	rpc("send_rec_data", recording.data)
+	effect.set_recording_active(true)
+
+@rpc("any_peer", "call_local", "reliable")	
+func send_rec_data(rec_data):
+	var sample = AudioStreamWAV.new()
+	sample.data = rec_data
+	sample.format = AudioStreamWAV.FORMAT_16_BITS
+	sample.mix_rate = AudioServer.get_mix_rate() * 2
+	$AudioStreamPlayer3D.stream = sample
+	$AudioStreamPlayer3D.play()
 	
 @rpc("call_local")
 func jump():
@@ -32,4 +53,3 @@ func _input(event):
 			rot_y = max_rot_y
 		if rot_y < -max_rot_y:
 			rot_y = -max_rot_y
-

@@ -27,6 +27,6 @@ func add_player(id: int):
 func signal_player_connected():
 	if multiplayer.is_server():
 		readyCounter += 1
-		if readyCounter == multiplayer.get_peers():
+		if readyCounter == multiplayer.get_peers().size():
 			for id in multiplayer.get_peers():
 				add_player(id)
