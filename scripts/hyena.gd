@@ -69,7 +69,6 @@ func _physics_process(delta):
 		if dist_to_player_target <= CHASE_KILL_DIST:
 			kill_player(player_target)
 	elif my_state == state.TEST_PLAYER:
-		play_growl()
 		var dist_to_player_target = global_transform.origin.distance_to(player_target.global_transform.origin)
 		if dist_to_player_target > TEST_RANGE_ALLOWED:
 			go_to_kill_state()
@@ -107,6 +106,7 @@ func _physics_process(delta):
 		if dist_to_player_target <= PLAYER_TEST_RANGE:
 			velocity = Vector3.ZERO
 			anim.stop()
+			play_growl()
 			my_state = state.TEST_PLAYER
 			test_player(player_target)
 		if time_in_approach > APPROACH_PATIENCE_TIME:
