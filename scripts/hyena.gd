@@ -16,7 +16,6 @@ enum state {WANDER, SEEK_NOISE, APPROACH_PLAYER, TEST_PLAYER, LEAVE_PLAYER, KILL
 enum result {PENDING, PASS, FAIL}
 
 @export var player_parent: Node3D
-@export var ind: Node3D
 
 var my_state = state.WANDER
 var player_target: Player
@@ -164,7 +163,6 @@ func pass_test():
 func get_path_pos_to(goal_position: Vector3) -> Vector3:
 	nav_agent.target_position = goal_position
 	var next_pos = nav_agent.get_next_path_position()
-	ind.global_transform.origin = next_pos
 	return next_pos
 
 func do_look(look_pos):

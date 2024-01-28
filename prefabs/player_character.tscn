@@ -26,7 +26,7 @@ properties/2/path = NodePath("PlayerInput:rot_y")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_hufik"]
+[sub_resource type="CylinderMesh" id="CylinderMesh_oolfj"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_f5ojr"]
 
@@ -35,6 +35,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.265, 0)
 script = ExtResource("1_tlqjf")
 
 [node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.499507, -0.529888)
 
 [node name="Collider" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_1h4gf")
@@ -50,8 +51,8 @@ replication_config = SubResource("SceneReplicationConfig_h6muu")
 script = ExtResource("2_itt7v")
 
 [node name="face" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.0281102, 0, 0.435009, 0, 0.102997, 0, -0.837227, 0, 0.0146056, -0.0133359, 0.0711384, -0.425378)
-mesh = SubResource("CapsuleMesh_hufik")
+transform = Transform3D(0.0281102, 0, 0.435009, 0.837227, -4.50214e-09, -0.0146056, 3.65964e-08, 0.102997, -6.38431e-10, -0.0133359, 0.447181, -0.52437)
+mesh = SubResource("CylinderMesh_oolfj")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
 autoplay = true
