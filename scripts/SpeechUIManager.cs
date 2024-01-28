@@ -27,23 +27,24 @@ public partial class SpeechUIManager : Node
 			else
 			{
 				OnStopSpeechRecognition();
-				(string finalResult, Godot.Collections.Array<double> freq) = speechRecognizer.StopSpeechRecoginition();
+				(string finalResult, Godot.Collections.Array<int> freq) = speechRecognizer.StopSpeechRecoginition();
 			}
 		};
-		speechRecognizer.OnPartialResult += (partialResult) =>
+		speechRecognizer.OnPartialResult += (partialResult, freq) =>
 		{
 			partialResultText.Text = partialResult;
+			GD.Print("Partial Freq ", freq);
+
 		};
 		
 		speechRecognizer.OnFinalResult += (finalResult, freq) =>
 		{
 			MatchCollection mc = Regex.Matches(finalResult, @"h[a(ey?)(oe?)]");
 			GD.Print("Freq ", freq);
-			var laughModel = new Godot.Collections.Array<double>{2.95042037963867, 0, 34.6490516662598, 50.354248046875, 10.9075927734375};
-			var testFreq = new Godot.Collections.Array<double>{};
+			var laughModel = new Godot.Collections.Array<int>{3, 0, 35, 50, 11};
 			var comparisonSum = 0;
 			for(int i = 0; i < 5; i++){
-				comparisonSum += ((int)laughModel[i] - (int)freq[i]);
+				comparisonSum += laughModel[i] - freq[i];
 			}
 			
 			GD.Print("Compare ", comparisonSum);

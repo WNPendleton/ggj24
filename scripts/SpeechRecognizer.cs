@@ -24,9 +24,9 @@ public partial class SpeechRecognizer : Node
 	[Export(PropertyHint.None, "Don't stop recongizer until timeout.")]
 	bool continuousRecognition = false;
 	[Signal]
-	public delegate void OnPartialResultEventHandler(string partialResults);
+	public delegate void OnPartialResultEventHandler(string partialResults, Godot.Collections.Array<int> freq );
 	[Signal]
-	public delegate void OnFinalResultEventHandler(string finalResults, Godot.Collections.Array<double> freq);
+	public delegate void OnFinalResultEventHandler(string finalResults, Godot.Collections.Array<int> freq);
 	private int recordBusIdx;
 	private AudioEffectRecord _microphoneRecord;  // The microphone recording bus effect
 	private AudioEffectSpectrumAnalyzerInstance _spectrum;  // The microphone recording bus effect
@@ -34,18 +34,18 @@ public partial class SpeechRecognizer : Node
 	private Model model;
 	private string partialResult;
 	private string finalResult;
-	private Godot.Collections.Array<double> finalFreqResult;
+	private Godot.Collections.Array<int> finalFreqResult;
 	private ulong recordTimeStart;
 	private ulong noChangeTimeOutStart;
 	private CancellationTokenSource cancelToken;
 	private double processInterval = 0.2;
-	const int VU_COUNT = 16;
+	const int VU_COUNT = 8;
 	private float FREQ_MAX = 11050.0F;
 
 	private int WIDTH = 400;
 	private int HEIGHT = 100;
 
-	private float MIN_DB = 60F;
+	private float MIN_DB = 80F;
 	
 	private bool stereo = true;
 	private int mix_rate = 44100;
@@ -135,31 +135,34 @@ public partial class SpeechRecognizer : Node
 				recordedSample.MixRate = mix_rate;
 
 				VoskRecognizer recognizer = new(model, recordedSample.MixRate);
+
 				byte[] data = recordedSample.Stereo ? MixStereoToMono(recordedSample.Data) : recordedSample.Data;
-				var w = WIDTH / VU_COUNT;
-			float prev_hz = 0F;
-			//var freq = new Godot.Collections.Array{};
-			//for(int i = 0; i < VU_COUNT+1; i++){
+				
+		
+				float prev_hz = 0F;
+
 				var hz = FREQ_MAX / VU_COUNT;
 				var magnitude = _spectrum.GetMagnitudeForFrequencyRange(prev_hz, hz).Length();
-				var energy = Math.Clamp((MIN_DB + Mathf.LinearToDb(magnitude)) / MIN_DB, 0, 1);
-				var height = energy * HEIGHT;
-				//DrawRect(new Rect2(w * i, HEIGHT - height, w, height), Colors.White);
-
+				//var energy =(int) Math.Clamp((MIN_DB + Mathf.LinearToDb(magnitude)) / MIN_DB, 0, 1);
+				//var height = energy * HEIGHT;
 				
-				prev_hz = hz;
-				//}
-			finalFreqResult.Add(height);
-			GD.Print(finalFreqResult);
+
+				var result = magnitude * 1000.0;
+
+				finalFreqResult.Add((int)result);
+				GD.Print(finalFreqResult);
+				
 
 				if (!recognizer.AcceptWaveform(data, data.Length))
 				{
 					string currentPartialResult = recognizer.PartialResult();
+				
 					if (partialResult == null || !currentPartialResult.Equals(partialResult))
 					{
 						partialResult = currentPartialResult;
 						noChangeTimeOutStart = Time.GetTicksMsec();
-						CallDeferred("emit_signal", "OnPartialResult", partialResult);
+						
+						CallDeferred("emit_signal", "OnPartialResult", partialResult, finalFreqResult);
 					}
 					EndRecognition(recognizer, finalFreqResult);
 				}
@@ -175,7 +178,7 @@ public partial class SpeechRecognizer : Node
 	
 	
 
-	private void EndRecognition(VoskRecognizer recognizer,Godot.Collections.Array<double> freq)
+	private void EndRecognition(VoskRecognizer recognizer, Godot.Collections.Array<int> freq)
 	{
 		finalResult = recognizer.FinalResult();
 		finalFreqResult = freq;
@@ -191,7 +194,7 @@ public partial class SpeechRecognizer : Node
 		cancelToken = new CancellationTokenSource();
 		partialResult = "";
 		finalResult = "";
-		finalFreqResult = new Godot.Collections.Array<double>{};
+		finalFreqResult = new Godot.Collections.Array<int>{};
 		recordTimeStart = Time.GetTicksMsec();
 		noChangeTimeOutStart = Time.GetTicksMsec();
 		isListening = true;
@@ -202,7 +205,7 @@ public partial class SpeechRecognizer : Node
 		StartContinuousSpeechRecognition();
 	}
 
-	public (string, Godot.Collections.Array<double>) StopSpeechRecoginition()
+	public (string, Godot.Collections.Array<int>) StopSpeechRecoginition()
 	{
 		isListening = false;
 		cancelToken.Cancel();
