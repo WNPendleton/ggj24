@@ -30,6 +30,8 @@ var loaded = false
 var growl_sounds = [preload("res://sounds/growl01.wav"), preload("res://sounds/growl02.wav"), preload("res://sounds/growl03.wav")]
 var kill_sounds = [preload("res://sounds/maul01.wav"), preload("res://sounds/maul02.wav"), preload("res://sounds/maul03.wav")]
 var laugh_sounds = [preload("res://sounds/laugh01.wav"), preload("res://sounds/laugh02.wav"), preload("res://sounds/laugh03.wav")]
+var idle_sounds = [preload("res://sounds/idle01.wav"), preload("res://sounds/idle02.wav"), preload("res://sounds/idle03.wav")]
+var idle_noise_time = randf_range(5, 15)
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
@@ -119,6 +121,10 @@ func _physics_process(delta):
 		#my_state = state.APPROACH_PLAYER
 		pass
 	elif my_state == state.WANDER:
+		idle_noise_time -= delta
+		if idle_noise_time <= 0:
+			play_idle.rpc()
+			idle_noise_time = randf_range(5, 15)
 		anim.speed_scale = WALK_ANIM_SPEED
 		idle_time -= delta
 		if idle_time <= 0:
@@ -198,4 +204,9 @@ func play_maul():
 @rpc("any_peer", "call_local", "reliable")
 func play_laugh():
 	audio.stream = laugh_sounds.pick_random()
+	audio.play()
+
+@rpc("any_peer", "call_local", "reliable")
+func play_idle():
+	audio.stream = idle_sounds.pick_random()
 	audio.play()
