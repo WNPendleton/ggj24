@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b2r1l627b42x2"
+path="res://.godot/imported/rockarch.obj-8107b99a2c318cf3ae0ba9cf749662f5.mesh"
+
+[deps]
+
+files=["res://.godot/imported/rockarch.obj-8107b99a2c318cf3ae0ba9cf749662f5.mesh"]
+
+source_file="res://meshes/rockarch.obj"
+dest_files=["res://.godot/imported/rockarch.obj-8107b99a2c318cf3ae0ba9cf749662f5.mesh", "res://.godot/imported/rockarch.obj-8107b99a2c318cf3ae0ba9cf749662f5.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(0.1, 0.1, 0.1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
