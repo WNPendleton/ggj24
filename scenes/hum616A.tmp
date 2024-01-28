@@ -55,6 +55,5 @@ mesh = SubResource("BoxMesh_a1v7w")
 
 [node name="CharacterBody3D" parent="3DWorld" instance=ExtResource("1_hu0xq")]
 
-[node name="Hyena" parent="." node_paths=PackedStringArray("player_list") instance=ExtResource("2_env21")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.451224, 0.487768, 21.1613)
-player_list = [NodePath("../3DWorld/CharacterBody3D")]
+[node name="Hyena" parent="." instance=ExtResource("2_env21")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.451224, 0.487768, 2.03622)
