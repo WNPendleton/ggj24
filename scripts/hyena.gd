@@ -27,9 +27,12 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var test_timer = 5
 var player_list
 var loaded = false
+var growl_sounds = [preload("res://sounds/growl01.wav"), preload("res://sounds/growl02.wav"), preload("res://sounds/growl03.wav")]
+var kill_sounds = [preload("res://sounds/maul01.wav"), preload("res://sounds/maul02.wav"), preload("res://sounds/maul03.wav")]
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
+@onready var audio: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
 
 func _ready():
@@ -66,6 +69,7 @@ func _physics_process(delta):
 		if dist_to_player_target <= CHASE_KILL_DIST:
 			kill_player(player_target)
 	elif my_state == state.TEST_PLAYER:
+		play_growl()
 		var dist_to_player_target = global_transform.origin.distance_to(player_target.global_transform.origin)
 		if dist_to_player_target > TEST_RANGE_ALLOWED:
 			go_to_kill_state()
@@ -141,11 +145,13 @@ func choose_wander_location():
 	anim.stop()
 
 func go_to_kill_state():
+	play_growl()
 	my_state = state.KILL_PLAYER
 	anim.play("run")
 	anim.speed_scale = CHASE_ANIM_SPEED
 
 func kill_player(player):
+	play_maul()
 	print("you dead")
 	player.global_transform.origin = Vector3(randf_range(-45, 45), 35, randf_range(-45, 45))
 	my_state = state.WANDER
@@ -177,3 +183,11 @@ func complete_test(result):
 			test_result = result.PASS
 		else:
 			test_result = result.FAIL
+
+func play_growl():
+	audio.stream = growl_sounds.pick_random()
+	audio.play()
+
+func play_maul():
+	audio.stream = kill_sounds.pick_random()
+	audio.play()
