@@ -29,6 +29,7 @@ var player_list
 var loaded = false
 var growl_sounds = [preload("res://sounds/growl01.wav"), preload("res://sounds/growl02.wav"), preload("res://sounds/growl03.wav")]
 var kill_sounds = [preload("res://sounds/maul01.wav"), preload("res://sounds/maul02.wav"), preload("res://sounds/maul03.wav")]
+var laugh_sounds = [preload("res://sounds/laugh01.wav"), preload("res://sounds/laugh02.wav"), preload("res://sounds/laugh03.wav")]
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
@@ -106,7 +107,7 @@ func _physics_process(delta):
 		if dist_to_player_target <= PLAYER_TEST_RANGE:
 			velocity = Vector3.ZERO
 			anim.stop()
-			play_growl.rpc()
+			play_laugh.rpc()
 			my_state = state.TEST_PLAYER
 			test_player(player_target)
 		if time_in_approach > APPROACH_PATIENCE_TIME:
@@ -192,4 +193,9 @@ func play_growl():
 @rpc("any_peer", "call_local", "reliable")
 func play_maul():
 	audio.stream = kill_sounds.pick_random()
+	audio.play()
+
+@rpc("any_peer", "call_local", "reliable")
+func play_laugh():
+	audio.stream = laugh_sounds.pick_random()
 	audio.play()
