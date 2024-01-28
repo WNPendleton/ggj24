@@ -25,6 +25,7 @@ var idle_time = 0.0
 var time_in_approach = 0.0
 var test_result
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+var test_timer = 5
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var nav_agent: NavigationAgent3D = $NavigationAgent3D
@@ -141,6 +142,7 @@ func kill_player(player):
 
 func test_player(player):
 	test_result = result.PENDING
+	player.get_node("PlayerInput").administer_test.rpc_id(player.multiplayer.get_unique_id(), self, test_timer)
 
 func fail_test():
 	test_result = result.FAIL
@@ -158,3 +160,11 @@ func do_look(look_pos):
 	var look_target = Vector3(look_pos.x, global_transform.origin.y, look_pos.z)
 	if global_transform.origin.distance_to(look_target) > 0.1:
 		look_at(Vector3(look_pos.x, global_transform.origin.y, look_pos.z))
+
+@rpc("any_peer", "call_local", "reliable")
+func complete_test(result):
+	if multiplayer.is_server():
+		if result:
+			test_result = result.PASS
+		else:
+			test_result = result.FAIL
